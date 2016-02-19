@@ -1,5 +1,5 @@
 <?php
-
+use App\Task;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -19,6 +19,10 @@ Route::get('/', function () {
 Route::get('/tasks', 'TaskController@index');
 Route::post('/task', 'TaskController@store');
 Route::delete('/task/{task}', 'TaskController@destroy');
+Route::delete('/finish/{task}','TaskController@finish');
+Route::get('/restore/{tasksf}','TaskController@restore');
+
+
 
 // Authentication Routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -28,3 +32,23 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 // Registration Routes...
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+
+//api test
+
+get('api/ceshi',function(){
+		return Task::take(5)->get();
+
+
+});
+Route::get('vuetest','VueController@index');
+Route::get('learnvue',function(){
+	
+	return view('learnvue');
+
+});
+
+Route::get('api/gettasks',function(){
+	return App\Task::latest()->get();
+
+});

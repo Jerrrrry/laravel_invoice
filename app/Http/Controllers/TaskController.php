@@ -7,7 +7,8 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\TaskRepository;
-
+//add ruan shan chu 
+use Illuminate\Database\Eloquent\SoftDeletes;
 class TaskController extends Controller
 {
     /**
@@ -38,9 +39,17 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        return view('tasks.index', [
+	$tasks=$this->tasks->forUser($request->user());
+	//get delted data from database 
+	$tasksfs=Task::onlyTrashed()->where('user_id',$request->user()->id)->get();
+
+	return view('tasks.index',compact('tasks','tasksfs'));
+
+
+       /* original solution
+	     return view('tasks.index', [
             'tasks' => $this->tasks->forUser($request->user()),
-        ]);
+        ]);*/
     }
 
     /**
@@ -73,8 +82,32 @@ class TaskController extends Controller
     {
         $this->authorize('destroy', $task);
 
+        $task->forceDelete();
+
+        return redirect('/tasks');
+    }
+
+
+
+     public function finish(Request $request, Task $task)
+    {
+        $this->authorize('destroy', $task);
+
         $task->delete();
 
         return redirect('/tasks');
     }
+
+     public function restore($id)
+    {
+        $task=Task::onlyTrashed()->where('id',$id)->restore();
+
+        //$task->restore();
+
+        return redirect('/tasks');
+		
+    }
+
+
+
 }

@@ -66,6 +66,16 @@
 												</button>
 											</form>
 										</td>
+										<td>
+											<form action="/finish/{{ $task->id }}" method="POST">
+												{{ csrf_field() }}
+												{{ method_field('DELETE') }}
+
+												<button type="submit" id="finish-task-{{ $task->id }}" class="btn btn-default">
+													<!--<i class="fa fa-btn fa-trash"></i>-->Complete
+												</button>
+											</form>
+										</td>
 									</tr>
 								@endforeach
 							</tbody>
@@ -73,6 +83,48 @@
 					</div>
 				</div>
 			@endif
+<!--complte-->
+			@if (count($tasksfs) > 0)
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Completed Tasks
+					</div>
+
+					<div class="panel-body">
+						<table class="table table-striped task-table">
+							<thead>
+								<th>Task</th>
+								<th>&nbsp;</th>
+							</thead>
+							<tbody>
+								@foreach ($tasksfs as $tasksf)
+									<tr>
+										<td class="table-text"><div>{{ $tasksf->name }}</div></td>
+
+										<!-- Task restore Button -->
+										<td>
+											<a href="/restore/{{ $tasksf->id }}"><span class="label label-success">Re-do</span></a>
+										</td>
+										
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+				</div>
+			@endif
+
+
+			
+
+
+
+
+
+
+
+
+<!--completed-->
 		</div>
 	</div>
 @endsection
