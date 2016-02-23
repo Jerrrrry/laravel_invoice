@@ -15,6 +15,18 @@ Route::get('/', function () {
 	return view('welcome');
 })->middleware('guest');
 
+//Invocie Routes
+
+Route::get('/invoices','InvoiceController@index');
+Route::post('api/invoice','InvoiceController@store');
+Route::get('/api/invoice','InvoiceController@getdata');
+//Route::get('/api/printpdf','InvoiceController@printpdf');
+Route::get('testpdf','InvoiceController@testpdf');
+Route::get('printpdf/{id}','InvoiceController@printpdf');
+Route::delete('api/invoice/{id}',function($id){
+		\App\Invoice::findOrFail($id)->delete();
+});
+
 // Task Routes
 Route::get('/tasks', 'TaskController@index');
 Route::post('/task', 'TaskController@store');

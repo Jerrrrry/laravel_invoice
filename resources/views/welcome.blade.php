@@ -9,7 +9,7 @@
 				</div>
 
 				<div class="panel-body">
-					You can store tasks here! Please register or login.
+					You can generate invoice here! Please register or login.
 				</div>
 			</div>
 		</div>
